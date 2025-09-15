@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Body Secrets - Something Amazing is Coming Soon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-green': '#4A7C59',
+                        'secondary-green': '#8FAA8B',
+                        'accent-green': '#2D5016'
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Slideshow Styles */
+        .slideshow-container {
+            position: relative;
+            max-width: 100%;
+            margin: auto;
+        }
+
+        .slide {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .slide.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .dots-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .dot {
+            height: 12px;
+            width: 12px;
+            margin: 0 5px;
+            background-color: rgba(74, 124, 89, 0.3);
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .dot.active, .dot:hover {
+            background-color: #4A7C59;
+        }
+
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(74, 124, 89, 0.8);
+            color: white;
+            border: none;
+            padding: 12px 16px;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .nav-arrow:hover {
+            background-color: #2D5016;
+        }
+
+        .nav-arrow.prev {
+            left: 10px;
+        }
+
+        .nav-arrow.next {
+            right: 10px;
+        }
+
+        /* Custom Mailchimp Form Styles */
+        #mc_embed_signup {
+            background: transparent !important;
+            clear: left;
+            font: 16px 'Inter', Arial, sans-serif !important;
+            width: 100% !important;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        #mc_embed_signup h2 {
+            color: #2D5016 !important;
+            font-size: 2rem !important;
+            font-weight: bold !important;
+            text-align: center !important;
+            margin-bottom: 2rem !important;
+        }
+        
+        #mc_embed_signup .indicates-required {
+            color: #4A7C59 !important;
+            text-align: center !important;
+            margin-bottom: 1.5rem !important;
+            font-size: 0.9rem !important;
+        }
+        
+        #mc_embed_signup .mc-field-group {
+            margin-bottom: 1.5rem !important;
+        }
+        
+        #mc_embed_signup label {
+            color: #2D5016 !important;
+            font-weight: 600 !important;
+            margin-bottom: 0.5rem !important;
+            display: block !important;
+        }
+        
+        #mc_embed_signup input[type="text"],
+        #mc_embed_signup input[type="email"],
+        #mc_embed_signup select {
+            width: 100% !important;
+            padding: 0.75rem !important;
+            border: 2px solid #8FAA8B !important;
+            border-radius: 0.5rem !important;
+            font-size: 1rem !important;
+            background: white !important;
+            transition: border-color 0.3s ease !important;
+        }
+        
+        #mc_embed_signup input[type="text"]:focus,
+        #mc_embed_signup input[type="email"]:focus,
+        #mc_embed_signup select:focus {
+            outline: none !important;
+            border-color: #4A7C59 !important;
+            box-shadow: 0 0 0 3px rgba(74, 124, 89, 0.1) !important;
+        }
+        
+        #mc_embed_signup .input-group strong {
+            color: #2D5016 !important;
+            font-weight: 600 !important;
+            margin-bottom: 1rem !important;
+            display: block !important;
+        }
+        
+        #mc_embed_signup .input-group ul {
+            list-style: none !important;
+            padding: 0 !important;
+            display: flex !important;
+            flex-wrap: wrap !important;
+            gap: 1rem !important;
+        }
+        
+        #mc_embed_signup .input-group li {
+            margin: 0 !important;
+            display: flex !important;
+            align-items: center !important;
+        }
+        
+        #mc_embed_signup input[type="radio"] {
+            margin-right: 0.5rem !important;
+            accent-color: #4A7C59 !important;
+        }
+        
+        #mc_embed_signup .input-group label {
+            margin-bottom: 0 !important;
+            font-weight: 400 !important;
+            color: #374151 !important;
+        }
+        
+        #mc_embed_signup .button {
+            background-color: #4A7C59 !important;
+            color: white !important;
+            padding: 1rem 2rem !important;
+            border: none !important;
+            border-radius: 0.5rem !important;
+            font-size: 1.1rem !important;
+            font-weight: 600 !important;
+            cursor: pointer !important;
+            transition: all 0.3s ease !important;
+            width: 100% !important;
+            margin-top: 1rem !important;
+        }
+        
+        #mc_embed_signup .button:hover {
+            background-color: #2D5016 !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 4px 12px rgba(74, 124, 89, 0.3) !important;
+        }
+        
+        #mc_embed_signup .button:disabled {
+            background-color: #8FAA8B !important;
+            transform: none !important;
+            box-shadow: none !important;
+            cursor: not-allowed !important;
+        }
+        
+        /* Hide Mailchimp branding */
+        #mc_embed_signup .refferal_badge {
+            display: none !important;
+        }
+        
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            #mc_embed_signup .input-group ul {
+                flex-direction: column !important;
+            }
+            
+            .nav-arrow {
+                display: none;
+            }
+        }
+
+        /* Success overlay styles */
+        .success-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .success-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            text-align: center;
+            max-width: 400px;
+            margin: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-white to-secondary-green/20">
+    
+    <!-- Header Section -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex justify-center">
+                <img src="WhatsApp Image 2025-09-13 at 13.59.57.jpeg" alt="Body Secrets Logo" class="h-16 md:h-20 object-contain">
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="py-12 md:py-20">
+        <div class="container mx-auto px-4 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold text-accent-green mb-6">
+                Something Amazing is <span class="text-primary-green">Coming Soon</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-700 mb-8 max-w-3xl mx-auto leading-relaxed">
+                Join the Body Secrets waitlist and be the first to experience our brand-new product that will change the way you glow! 🌟💚
+            </p>
+            <button onclick="document.getElementById('waitlist-form').scrollIntoView({ behavior: 'smooth' })" 
+                    class="bg-primary-green text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-accent-green transition-all duration-300 transform hover:scale-105 shadow-lg">
+                Join Waitlist
+            </button>
+        </div>
+    </section>
+
+    <!-- Banner/Slideshow Section -->
+    <section class="py-12 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="slideshow-container relative bg-gradient-to-r from-secondary-green to-primary-green rounded-2xl overflow-hidden shadow-xl">
+                
+                <!-- Slide 1 -->
+                <div class="slide active">
+                    <div class="flex flex-col md:flex-row items-center min-h-[400px]">
+                        <div class="w-full md:w-1/2 p-8 md:p-12 text-white">
+                            <h3 class="text-3xl md:text-4xl font-bold mb-4">Revolutionary Skincare</h3>
+                            <p class="text-lg md:text-xl opacity-90">Experience the future of natural beauty with our scientifically formulated products.</p>
+                        </div>
+                        <div class="w-full md:w-1/2 p-8 flex justify-center">
+                            <img src="WhatsApp Image 2025-09-13 at 13.59.57.jpeg" alt="Body Secrets Product" class="h-48 md:h-64 object-contain">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Slide 2 -->
+                <div class="slide">
+                    <div class="flex flex-col md:flex-row items-center min-h-[400px]">
+                        <div class="w-full md:w-1/2 p-8 md:p-12 text-white">
+                            <h3 class="text-3xl md:text-4xl font-bold mb-4">Natural Ingredients</h3>
+                            <p class="text-lg md:text-xl opacity-90">Carefully sourced botanical extracts for your skin's ultimate wellness and radiance.</p>
+                        </div>
+                        <div class="w-full md:w-1/2 p-8 flex justify-center">
+                            <img src="WhatsApp Image 2025-09-13 at 13.59.57.jpeg" alt="Natural Ingredients" class="h-48 md:h-64 object-contain">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Slide 3 -->
+                <div class="slide">
+                    <div class="flex flex-col md:flex-row items-center min-h-[400px]">
+                        <div class="w-full md:w-1/2 p-8 md:p-12 text-white">
+                            <h3 class="text-3xl md:text-4xl font-bold mb-4">Exclusive Launch</h3>
+                            <p class="text-lg md:text-xl opacity-90">Be among the first to discover what makes Body Secrets truly special.</p>
+                        </div>
+                        <div class="w-full md:w-1/2 p-8 flex justify-center">
+                            <img src="WhatsApp Image 2025-09-13 at 13.59.57.jpeg" alt="Exclusive Launch" class="h-48 md:h-64 object-contain">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation arrows -->
+                <button class="nav-arrow prev" onclick="changeSlide(-1)">❮</button>
+                <button class="nav-arrow next" onclick="changeSlide(1)">❯</button>
+            </div>
+            
+            <!-- Dots indicator -->
+            <div class="dots-container">
+                <span class="dot active" onclick="currentSlide(1)"></span>
+                <span class="dot" onclick="currentSlide(2)"></span>
+                <span class="dot" onclick="currentSlide(3)"></span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Waitlist Form Section -->
+    <section id="waitlist-form" class="py-12 md:py-20 bg-gradient-to-br from-secondary-green/10 to-primary-green/10">
+        <div class="container mx-auto px-4">
+            <!-- Mailchimp Form -->
+            <div id="mc_embed_shell">
+                <div id="mc_embed_signup">
+                    <form action="https://gmail.us20.list-manage.com/subscribe/post?u=8948c01c39daae9f13a0a250b&amp;id=c2b632fa68&amp;f_id=00bac2e1f0" 
+                          method="post" 
+                          id="mc-embedded-subscribe-form" 
+                          name="mc-embedded-subscribe-form" 
+                          class="validate" 
+                          target="_self"
+                          novalidate>
+                        <div id="mc_embed_signup_scroll">
+                            <h2>Join the Body Secrets Waitlist</h2>
+                            <div class="indicates-required"><span class="asterisk">*</span> indicates required</div>
+                            
+                            <div class="mc-field-group">
+                                <label for="mce-EMAIL">Email Address <span class="asterisk">*</span></label>
+                                <input type="email" name="EMAIL" class="required email" id="mce-EMAIL" required="" value="">
+                                <span id="mce-EMAIL-HELPERTEXT" class="helper_text"></span>
+                            </div>
+                            
+                            <div class="mc-field-group">
+                                <label for="mce-FNAME">Full Name</label>
+                                <input type="text" name="FNAME" class="text" id="mce-FNAME" value="">
+                                <span id="mce-FNAME-HELPERTEXT" class="helper_text"></span>
+                            </div>
+                            
+                            <div class="mc-field-group">
+                                <label for="mce-PHONE">Phone Number / WhatsApp</label>
+                                <input type="text" name="PHONE" class="REQ_CSS" id="mce-PHONE" value="">
+                                <span id="mce-PHONE-HELPERTEXT" class="helper_text"></span>
+                            </div>
+                            
+                            <div class="mc-field-group input-group">
+                                <strong>How excited are you about the upcoming launch?</strong>
+                                <ul>
+                                    <li><input type="radio" name="EXCITEMENT" id="mce-EXCITEMENT0" value="Very excited"><label for="mce-EXCITEMENT0">Very excited</label></li>
+                                    <li><input type="radio" name="EXCITEMENT" id="mce-EXCITEMENT1" value="Excited"><label for="mce-EXCITEMENT1">Excited</label></li>
+                                    <li><input type="radio" name="EXCITEMENT" id="mce-EXCITEMENT2" value="Curious"><label for="mce-EXCITEMENT2">Curious</label></li>
+                                    <li><input type="radio" name="EXCITEMENT" id="mce-EXCITEMENT3" value="Not sure yet"><label for="mce-EXCITEMENT3">Not sure yet</label></li>
+                                </ul>
+                                <span id="mce-EXCITEMENT-HELPERTEXT" class="helper_text"></span>
+                            </div>
+                            
+                            <div class="mc-field-group input-group">
+                                <strong>Would you like early access to new products before it goes on sale to the public?</strong>
+                                <ul>
+                                    <li><input type="radio" name="ACCESS" id="mce-ACCESS0" value="Yes"><label for="mce-ACCESS0">Yes</label></li>
+                                    <li><input type="radio" name="ACCESS" id="mce-ACCESS1" value="No"><label for="mce-ACCESS1">No</label></li>
+                                </ul>
+                                <span id="mce-ACCESS-HELPERTEXT" class="helper_text"></span>
+                            </div>
+                            
+                            <div id="mce-responses" class="clear foot">
+                                <div class="response" id="mce-error-response" style="display: none;"></div>
+                                <div class="response" id="mce-success-response" style="display: none;"></div>
+                            </div>
+                            
+                            <!-- Hidden anti-spam field -->
+                            <div aria-hidden="true" style="position: absolute; left: -5000px;">
+                                <input type="text" name="b_8948c01c39daae9f13a0a250b_c2b632fa68" tabindex="-1" value="">
+                            </div>
+                            
+                            <div class="optionalParent">
+                                <div class="clear foot">
+                                    <input type="submit" name="subscribe" id="mc-embedded-subscribe" class="button" value="Join Waitlist">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="bg-accent-green text-white py-12">
+        <div class="container mx-auto px-4 text-center">
+            <div class="mb-8">
+                <h3 class="text-2xl font-bold mb-4">Thank You for Joining Us!</h3>
+                <p class="text-secondary-green/80 max-w-2xl mx-auto">
+                    We're excited to share our journey with you. Get ready to discover the secret to radiant, healthy skin.
+                </p>
+            </div>
+            
+            <div class="border-t border-secondary-green/30 pt-8">
+                <p class="text-secondary-green/60">
+                    © 2024 Body Secrets. All rights reserved.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Slideshow functionality
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const dots = document.querySelectorAll('.dot');
+        
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            slides[index].classList.add('active');
+            dots[index].classList.add('active');
+        }
+        
+        function changeSlide(direction) {
+            currentSlideIndex += direction;
+            
+            if (currentSlideIndex >= slides.length) {
+                currentSlideIndex = 0;
+            } else if (currentSlideIndex < 0) {
+                currentSlideIndex = slides.length - 1;
+            }
+            
+            showSlide(currentSlideIndex);
+        }
+        
+        function currentSlide(index) {
+            currentSlideIndex = index - 1;
+            showSlide(currentSlideIndex);
+        }
+        
+        // Auto-advance slideshow
+        setInterval(() => {
+            changeSlide(1);
+        }, 5000);
+        
+        // Form handling and enhancements
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('mc-embedded-subscribe-form');
+            const submitBtn = document.getElementById('mc-embedded-subscribe');
+            
+            // Handle form submission
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Show loading state
+                submitBtn.value = 'Joining...';
+                submitBtn.disabled = true;
+                
+                // Create a hidden iframe for submission
+                const iframe = document.createElement('iframe');
+                iframe.style.display = 'none';
+                iframe.name = 'mc-embedded-subscribe-form-iframe';
+                document.body.appendChild(iframe);
+                
+                // Set form target to iframe
+                form.target = 'mc-embedded-subscribe-form-iframe';
+                
+                // Submit form
+                form.submit();
+                
+                // Show success message after delay
+                setTimeout(() => {
+                    submitBtn.value = 'Join Waitlist';
+                    submitBtn.disabled = false;
+                    showSuccessMessage();
+                    form.reset();
+                    
+                    // Remove iframe
+                    document.body.removeChild(iframe);
+                }, 2000);
+            });
+            
+            function showSuccessMessage() {
+                const overlay = document.createElement('div');
+                overlay.className = 'success-overlay';
+                overlay.innerHTML = `
+                    <div class="success-content">
+                        <div class="text-6xl mb-4">💚</div>
+                        <h3 class="text-2xl font-bold text-primary-green mb-4">Thank You!</h3>
+                        <p class="text-gray-600 mb-4">You've successfully joined the Body Secrets waitlist!</p>
+                        <p class="text-sm text-gray-500 mb-6">We'll keep you updated on our exciting new product launch.</p>
+                        <button onclick="this.parentElement.parentElement.remove()" 
+                                class="bg-primary-green text-white px-6 py-2 rounded-lg hover:bg-accent-green transition-colors">
+                            Close
+                        </button>
+                    </div>
+                `;
+                document.body.appendChild(overlay);
+            }
+        });
+        
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+    
+    <!-- Mailchimp validation script -->
+    <script type="text/javascript" src="//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js"></script>
+    <script type="text/javascript">
+        (function($) {
+            window.fnames = new Array(); 
+            window.ftypes = new Array();
+            fnames[0]='EMAIL';ftypes[0]='email';
+            fnames[1]='FNAME';ftypes[1]='text';
+            fnames[3]='ADDRESS';ftypes[3]='address';
+            fnames[4]='PHONE';ftypes[4]='phone';
+            fnames[2]='EXCITEMENT';ftypes[2]='radio';
+            fnames[5]='ACCESS';ftypes[5]='radio';
+        }(jQuery));
+        var $mcj = jQuery.noConflict(true);
+    </script>
+</body>
+</html>
